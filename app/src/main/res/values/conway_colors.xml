@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="palette1Bg">#001437</color>
+    <color name="palette1Grid">#7898FB</color>
+    <color name="palette1Fg">#5CE5D5</color>
+
+    <color name="palette2Bg">#560A86</color>
+    <color name="palette2Grid">#7122FA</color>
+    <color name="palette2Fg">#F148FB</color>
+
+    <color name="palette3Bg">#011FFD</color>
+    <color name="palette3Grid">#75D5FD</color>
+    <color name="palette3Fg">#FF2281</color>
+
+    <color name="palette4Bg">#0310EA</color>
+    <color name="palette4Grid">#FB33DB</color>
+    <color name="palette4Fg">#7FFF00</color>
+
+    <color name="palette5Bg">#35212A</color>
+    <color name="palette5Grid">#3B55CE</color>
+    <color name="palette5Fg">#FF61BE</color>
+
+    <color name="palette6Bg">#00207F</color>
+    <color name="palette6Grid">#A992FA</color>
+    <color name="palette6Fg">#FEC763</color>
+
+    <color name="palette7Bg">#F85125</color>
+    <color name="palette7Grid">#FF8B8B</color>
+    <color name="palette7Fg">#79FFFE</color>
+
+    <color name="palette8Bg">#037A90</color>
+    <color name="palette8Grid">#00C2BA</color>
+    <color name="palette8Fg">#FF8fCF</color>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Playground</string>
+
+    <string name="visualsorting_info_text">%1$s - %2$d comparisons, %3$d array accesses</string>
+    <string name="visualsorting_info_no_algorithm_selected">No algorithm selected</string>
+</resources>

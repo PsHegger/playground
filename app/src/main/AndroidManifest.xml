@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="pshegger.github.io.playground">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".gamedev.GameDevActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".mandelbrotrs.MandelbrotRsActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".mandelbrot.MandelbrotActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".conway.ConwayActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".visualsorting.VisualSortingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.VisualSorting" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
