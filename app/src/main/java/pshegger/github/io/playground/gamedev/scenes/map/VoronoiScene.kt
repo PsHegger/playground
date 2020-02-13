@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.graphics.Paint
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.DelaunayGenerator
-import pshegger.github.io.playground.gamedev.algorithms.PoissonBridson
-import pshegger.github.io.playground.gamedev.algorithms.Voronoi
+import pshegger.github.io.playground.gamedev.algorithms.map.DelaunayGenerator
+import pshegger.github.io.playground.gamedev.algorithms.poisson.PoissonBridson
+import pshegger.github.io.playground.gamedev.algorithms.map.Voronoi
 import pshegger.github.io.playground.gamedev.geometry.Edge
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.MapGenerationMenuScene
@@ -19,7 +19,8 @@ class VoronoiScene(val gameSurfaceView: GameSurfaceView) : Scene {
         const val POISSON_RADIUS = 80
     }
 
-    private var generator = Voronoi(emptyList())
+    private var generator =
+        Voronoi(emptyList())
     var width: Int = 0
     var height: Int = 0
 
@@ -59,15 +60,24 @@ class VoronoiScene(val gameSurfaceView: GameSurfaceView) : Scene {
         val scaledWidth = width + 2 * POISSON_RADIUS
         val scaledHeight = height + 2 * POISSON_RADIUS
 
-        val poisson = PoissonBridson(margin = 5, radius = POISSON_RADIUS)
+        val poisson =
+            PoissonBridson(
+                margin = 5,
+                radius = POISSON_RADIUS
+            )
         poisson.reset(scaledWidth, scaledHeight)
 
         poisson.generateAll()
-        val delaunay = DelaunayGenerator(poisson.points.map { it.p })
+        val delaunay =
+            DelaunayGenerator(
+                poisson.points.map { it.p })
         delaunay.reset(scaledWidth, scaledHeight)
         delaunay.generateAll()
 
-        generator = Voronoi(delaunay.triangles.map { it.shift(-POISSON_RADIUS) })
+        generator =
+            Voronoi(delaunay.triangles.map {
+                it.shift(-POISSON_RADIUS)
+            })
         generator.reset()
     }
 

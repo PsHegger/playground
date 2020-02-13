@@ -1,6 +1,7 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.map
 
 import android.util.Log
+import pshegger.github.io.playground.gamedev.algorithms.poisson.PoissonBridson
 import pshegger.github.io.playground.gamedev.algorithms.simplex.SimplexNoise
 import pshegger.github.io.playground.gamedev.geometry.Edge
 import pshegger.github.io.playground.gamedev.geometry.Polygon
@@ -30,10 +31,16 @@ class MapGenerator(private val settings: Settings) {
     val state: State
         get() = _state
 
-    private var poissonGenerator = PoissonBridson()
-    private var delaunayGenerator = DelaunayGenerator(emptyList())
-    private var voronoi = Voronoi(emptyList())
-    private var _state: State = State.Poisson
+    private var poissonGenerator =
+        PoissonBridson()
+    private var delaunayGenerator =
+        DelaunayGenerator(
+            emptyList()
+        )
+    private var voronoi =
+        Voronoi(emptyList())
+    private var _state: State =
+        State.Poisson
 
     private var sortedCells: List<Polygon> = emptyList()
     private var mapPolygonValues: List<Double> = emptyList()
@@ -46,9 +53,14 @@ class MapGenerator(private val settings: Settings) {
         this.width = width
         this.height = height
 
-        poissonGenerator = PoissonBridson(margin = settings.poissonMargin, radius = settings.poissonRadius)
+        poissonGenerator =
+            PoissonBridson(
+                margin = settings.poissonMargin,
+                radius = settings.poissonRadius
+            )
         poissonGenerator.reset(this.width, this.height)
-        _state = State.Poisson
+        _state =
+            State.Poisson
     }
 
     fun generateNext() {
@@ -70,18 +82,25 @@ class MapGenerator(private val settings: Settings) {
     private fun poissonStep() {
         poissonGenerator.generateNextPoint()
         if (!poissonGenerator.canGenerateMore) {
-            delaunayGenerator = DelaunayGenerator(poissonGenerator.points.map { it.p })
+            delaunayGenerator =
+                DelaunayGenerator(
+                    poissonGenerator.points.map { it.p })
             delaunayGenerator.reset(width, height)
-            _state = State.Delaunay
+            _state =
+                State.Delaunay
         }
     }
 
     private fun delaunayStep() {
         delaunayGenerator.generateNextEdge()
         if (!delaunayGenerator.canGenerateMore) {
-            voronoi = Voronoi(delaunayGenerator.triangles)
+            voronoi =
+                Voronoi(
+                    delaunayGenerator.triangles
+                )
             voronoi.reset()
-            _state = State.Voronoi
+            _state =
+                State.Voronoi
         }
     }
 
@@ -91,7 +110,8 @@ class MapGenerator(private val settings: Settings) {
         if (!voronoi.canGenerateMore) {
             sortedCells = voronoi.polygons.sortedBy { it.p.y * width + it.p.x }
             _mapPolygons.clear()
-            _state = State.Simplex
+            _state =
+                State.Simplex
         }
     }
 
@@ -110,11 +130,16 @@ class MapGenerator(private val settings: Settings) {
         }
 
         val i = _mapPolygons.size
-        val mapPoly = MapPolygon(sortedCells[i], mapPolygonValues[i].toFloat())
+        val mapPoly =
+            MapPolygon(
+                sortedCells[i],
+                mapPolygonValues[i].toFloat()
+            )
         _mapPolygons.add(mapPoly)
 
         if (_mapPolygons.size == sortedCells.size) {
-            _state = State.Finished
+            _state =
+                State.Finished
         }
     }
 

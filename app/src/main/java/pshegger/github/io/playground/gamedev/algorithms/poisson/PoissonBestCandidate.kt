@@ -1,4 +1,4 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.poisson
 
 import pshegger.github.io.playground.gamedev.geometry.Vector
 import kotlin.random.Random

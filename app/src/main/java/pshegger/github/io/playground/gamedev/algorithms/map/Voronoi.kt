@@ -1,4 +1,4 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.map
 
 import pshegger.github.io.playground.gamedev.geometry.Edge
 import pshegger.github.io.playground.gamedev.geometry.Polygon
@@ -14,7 +14,12 @@ class Voronoi(private val triangles: List<Triangle>) {
     val edges: List<Edge>
         get() = polygons.flatMap { it.edges }.distinct()
     val points: List<PointState>
-        get() = _points.map { PointState(it, processingQueue.contains(it)) }
+        get() = _points.map {
+            PointState(
+                it,
+                processingQueue.contains(it)
+            )
+        }
 
     private val processedPoints = mutableListOf<Vector>()
     private val processingQueue = mutableListOf<Vector>()

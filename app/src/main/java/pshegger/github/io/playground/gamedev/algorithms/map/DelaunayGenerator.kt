@@ -1,4 +1,4 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.map
 
 import pshegger.github.io.playground.gamedev.geometry.Edge
 import pshegger.github.io.playground.gamedev.geometry.Triangle

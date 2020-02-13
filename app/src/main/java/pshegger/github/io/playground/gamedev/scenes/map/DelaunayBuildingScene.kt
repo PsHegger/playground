@@ -5,15 +5,18 @@ import android.graphics.Color
 import android.graphics.Paint
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.DelaunayGenerator
-import pshegger.github.io.playground.gamedev.algorithms.PoissonBridson
+import pshegger.github.io.playground.gamedev.algorithms.map.DelaunayGenerator
+import pshegger.github.io.playground.gamedev.algorithms.poisson.PoissonBridson
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.MapGenerationMenuScene
 import pshegger.github.io.playground.gamedev.utils.toLinesArray
 import pshegger.github.io.playground.gamedev.utils.toPointsArray
 
 class DelaunayBuildingScene(val gameSurfaceView: GameSurfaceView) : Scene {
-    private var generator = DelaunayGenerator(emptyList())
+    private var generator =
+        DelaunayGenerator(
+            emptyList()
+        )
     var width: Int = 0
     var height: Int = 0
 
@@ -50,11 +53,17 @@ class DelaunayBuildingScene(val gameSurfaceView: GameSurfaceView) : Scene {
     }
 
     private fun initGenerator() {
-        val poisson = PoissonBridson(margin = 5, radius = 80)
+        val poisson =
+            PoissonBridson(
+                margin = 5,
+                radius = 80
+            )
         poisson.reset(width, height)
 
         poisson.generateAll()
-        generator = DelaunayGenerator(poisson.points.map { it.p })
+        generator =
+            DelaunayGenerator(
+                poisson.points.map { it.p })
         generator.reset(width, height)
     }
 

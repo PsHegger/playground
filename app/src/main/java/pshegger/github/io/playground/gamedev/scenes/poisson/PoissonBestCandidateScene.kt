@@ -5,13 +5,16 @@ import android.graphics.Color
 import android.graphics.Paint
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.PoissonBestCandidate
+import pshegger.github.io.playground.gamedev.algorithms.poisson.PoissonBestCandidate
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.PoissonMenuScene
 import pshegger.github.io.playground.gamedev.utils.toPointsArray
 
 class PoissonBestCandidateScene(val gameSurfaceView: GameSurfaceView) : Scene {
-    val algo = PoissonBestCandidate(margin = 5)
+    val algo =
+        PoissonBestCandidate(
+            margin = 5
+        )
     var width: Int = 0
     var height: Int = 0
 

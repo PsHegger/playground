@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.MapGenerator
+import pshegger.github.io.playground.gamedev.algorithms.map.MapGenerator
 import pshegger.github.io.playground.gamedev.geometry.Polygon
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.MapGenerationMenuScene
@@ -15,7 +15,14 @@ import pshegger.github.io.playground.gamedev.utils.toLinesArray
 import pshegger.github.io.playground.gamedev.utils.toPointsArray
 
 class MapGeneratorScene(val gameSurfaceView: GameSurfaceView) : Scene {
-    private var generator = MapGenerator(MapGenerator.Settings(5, 30, 150))
+    private var generator =
+        MapGenerator(
+            MapGenerator.Settings(
+                5,
+                30,
+                150
+            )
+        )
     var width: Int = 0
     var height: Int = 0
 

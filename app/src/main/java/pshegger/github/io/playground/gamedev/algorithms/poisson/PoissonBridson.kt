@@ -1,4 +1,4 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.poisson
 
 import android.graphics.RectF
 import pshegger.github.io.playground.gamedev.geometry.Vector
@@ -6,7 +6,12 @@ import kotlin.random.Random
 
 class PoissonBridson(val margin: Int = 0, val radius: Int = 40, val candidateCount: Int = 20) {
     val points: List<PointState>
-        get() = pointsData.map { PointState(it.p, activeSamples.contains(it)) }
+        get() = pointsData.map {
+            PointState(
+                it.p,
+                activeSamples.contains(it)
+            )
+        }
 
     private val pointsData = arrayListOf<PointData>()
     private val activeSamples = arrayListOf<PointData>()
@@ -77,7 +82,11 @@ class PoissonBridson(val margin: Int = 0, val radius: Int = 40, val candidateCou
     private fun randomPointData() = let {
         Vector(rng.nextFloat() * (width - 2 * margin) + margin, rng.nextFloat() * (height - 2 * margin) + margin)
     }.let { p ->
-        PointData(p, p.x.toInt() / gridSize, p.y.toInt() / gridSize)
+        PointData(
+            p,
+            p.x.toInt() / gridSize,
+            p.y.toInt() / gridSize
+        )
     }
 
     private fun randomAnnulusPointData(p: Vector): PointData {
@@ -89,7 +98,11 @@ class PoissonBridson(val margin: Int = 0, val radius: Int = 40, val candidateCou
 
             if (container.contains(nx, ny)) {
                 val np = Vector(p.x + r * Math.cos(theta).toFloat(), p.y + r * Math.sin(theta).toFloat())
-                return PointData(np, np.x.toInt() / gridSize, np.y.toInt() / gridSize)
+                return PointData(
+                    np,
+                    np.x.toInt() / gridSize,
+                    np.y.toInt() / gridSize
+                )
             }
         }
     }

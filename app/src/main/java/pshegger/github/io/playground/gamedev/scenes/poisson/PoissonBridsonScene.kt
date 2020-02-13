@@ -5,13 +5,17 @@ import android.graphics.Color
 import android.graphics.Paint
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.PoissonBridson
+import pshegger.github.io.playground.gamedev.algorithms.poisson.PoissonBridson
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.PoissonMenuScene
 import pshegger.github.io.playground.gamedev.utils.toPointsArray
 
 class PoissonBridsonScene(val gameSurfaceView: GameSurfaceView) : Scene {
-    val algo = PoissonBridson(margin = 5, radius = 45)
+    val algo =
+        PoissonBridson(
+            margin = 5,
+            radius = 45
+        )
     var width: Int = 0
     var height: Int = 0
 
