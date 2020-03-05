@@ -2,6 +2,7 @@ package pshegger.github.io.playground.gamedev.scenes.menu
 
 import pshegger.github.io.playground.gamedev.GameDevActivity
 import pshegger.github.io.playground.gamedev.GameSurfaceView
+import pshegger.github.io.playground.gamedev.scenes.BoidsScene
 import pshegger.github.io.playground.gamedev.scenes.DungeonGeneratorScene
 
 class MainMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfaceView) {
@@ -15,6 +16,7 @@ class MainMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfac
     override val scenes: List<MenuItem>
         get() = listOf(
             MenuItem("Balls", BallsMenuScene(gameSurfaceView)),
+            MenuItem("Boids", BoidsScene(gameSurfaceView)),
             MenuItem("Poisson", PoissonMenuScene(gameSurfaceView)),
             MenuItem("Maze", MazeMenuScene(gameSurfaceView)),
             MenuItem("Map Generation", MapGenerationMenuScene(gameSurfaceView)),
