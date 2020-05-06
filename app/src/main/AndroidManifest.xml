@@ -10,7 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
+        <activity
+            android:name=".rgbtextview.RgbTextViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".gamedev.GameDevActivity"
             android:theme="@style/AppTheme.Fullscreen" />

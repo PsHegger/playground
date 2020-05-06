@@ -14,6 +14,7 @@ import pshegger.github.io.playground.conway.ConwayActivity
 import pshegger.github.io.playground.gamedev.GameDevActivity
 import pshegger.github.io.playground.mandelbrot.MandelbrotActivity
 import pshegger.github.io.playground.mandelbrotrs.MandelbrotRsActivity
+import pshegger.github.io.playground.rgbtextview.RgbTextViewActivity
 import pshegger.github.io.playground.visualsorting.VisualSortingActivity
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity() {
             Experiment(R.mipmap.ic_launcher, "Conway", ConwayActivity::class.java),
             Experiment(R.mipmap.ic_launcher, "Mandelbrot", MandelbrotActivity::class.java),
             Experiment(R.mipmap.ic_launcher, "Mandelbrot (RS)", MandelbrotRsActivity::class.java),
-            Experiment(R.mipmap.ic_gamedev, "GameDev", GameDevActivity::class.java)
+            Experiment(R.mipmap.ic_gamedev, "GameDev", GameDevActivity::class.java),
+            Experiment(R.mipmap.ic_launcher, "RGB TextView", RgbTextViewActivity::class.java)
         ).sortedBy { it.name }
     }
 

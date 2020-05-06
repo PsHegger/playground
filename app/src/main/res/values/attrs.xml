@@ -4,4 +4,12 @@
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="RgbTextView">
+        <attr name="colorMode" format="enum">
+            <enum name="rgb" value="0" />
+            <enum name="hsv" value="1" />
+            <enum name="seed" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>
