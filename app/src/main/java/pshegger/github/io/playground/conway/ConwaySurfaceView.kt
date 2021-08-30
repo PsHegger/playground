@@ -53,7 +53,7 @@ class ConwaySurfaceView(context: Context, attrs: AttributeSet?, defStyleAttrs: I
         else -> super.onTouchEvent(event)
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         conway = Conway(width / CELL_SIZE, height / CELL_SIZE, BIRTH_CHANCE)
         conway.reset()
 
@@ -62,11 +62,11 @@ class ConwaySurfaceView(context: Context, attrs: AttributeSet?, defStyleAttrs: I
         renderThread.start()
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         renderThread.running = false
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {}
+    override fun surfaceCreated(holder: SurfaceHolder) {}
 
     private inner class RendetThread(var running: Boolean = true) : Thread() {
 

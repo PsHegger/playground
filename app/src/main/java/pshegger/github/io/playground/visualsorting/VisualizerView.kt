@@ -60,7 +60,7 @@ class VisualizerView(context: Context, attrs: AttributeSet?, defStyleAttrs: Int,
         holder.addCallback(this)
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         val rectWidth = min(width - 2 * SIDE_MARGIN, height - 2 * SIDE_MARGIN)
         val centerX = width / 2f
         val centerY = height / 2f
@@ -76,11 +76,11 @@ class VisualizerView(context: Context, attrs: AttributeSet?, defStyleAttrs: Int,
         renderThread.start()
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         renderThread.running = false
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {}
+    override fun surfaceCreated(holder: SurfaceHolder) {}
 
     private inner class RenderThread(var running: Boolean = true) : Thread() {
 
@@ -107,7 +107,7 @@ class VisualizerView(context: Context, attrs: AttributeSet?, defStyleAttrs: Int,
             val data = this@VisualizerView.data ?: return
 
             val count = data.size
-            val max = data.max() ?: 1
+            val max = data.maxOrNull() ?: 1
             val angleStep = 360f / count
 
             for (i in 0 until count) {
@@ -123,7 +123,7 @@ class VisualizerView(context: Context, attrs: AttributeSet?, defStyleAttrs: Int,
             val overrides = colorOverrides ?: return
 
             val count = data.size
-            val max = data.max() ?: 1
+            val max = data.maxOrNull() ?: 1
 
             val drawHeight = height - TOP_MARGIN
             val drawWidth = width - 2 * SIDE_MARGIN

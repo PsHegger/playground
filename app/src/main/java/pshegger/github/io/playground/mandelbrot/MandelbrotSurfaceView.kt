@@ -72,7 +72,7 @@ class MandelbrotSurfaceView(context: Context, atts: AttributeSet?, defStyleAttr:
         )
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         val m = Mandelbrot(width, height)
 
         val ratio = 2.0 / height
@@ -91,11 +91,11 @@ class MandelbrotSurfaceView(context: Context, atts: AttributeSet?, defStyleAttr:
         renderThread?.start()
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         renderThread?.running = false
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {}
+    override fun surfaceCreated(holder: SurfaceHolder) {}
 
     private inner class RenderThread(
         var running: Boolean = true

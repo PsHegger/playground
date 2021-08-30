@@ -45,7 +45,7 @@ class AStar(maze: List<List<BaseMazeGenerator.FieldValue>>, val heuristic: (Coor
                     changeState(currentNode.c, FieldState.FieldValue.Active)
                 }
 
-                currentNode = unvisitedNodes.filter { it.distance != Int.MAX_VALUE }.minBy { it.distance + heuristic(it.c, stop) * (1 + tieBreaker) }!!
+                currentNode = unvisitedNodes.filter { it.distance != Int.MAX_VALUE }.minByOrNull { it.distance + heuristic(it.c, stop) * (1 + tieBreaker) }!!
             }
         } else {
             pathBackTrack?.let { c ->

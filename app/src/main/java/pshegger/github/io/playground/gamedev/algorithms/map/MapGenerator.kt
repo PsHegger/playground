@@ -122,8 +122,8 @@ class MapGenerator(private val settings: Settings) {
             val rowCount = height / settings.simplexGridSize
 
             val simplexValues = sortedCells.map { c -> simplex.getNoise(c.p.x.toInt() / columnCount, c.p.y.toInt() / rowCount) }
-            val minSimplex = simplexValues.min()!!
-            val maxSimplex = simplexValues.max()!!
+            val minSimplex = simplexValues.minOf { it }
+            val maxSimplex = simplexValues.maxOf { it }
             Log.d("Simplex", "Min: $minSimplex, max: $maxSimplex")
             mapPolygonValues = simplexValues.map { (it - minSimplex) / (maxSimplex - minSimplex) }
             Log.d("Simplex", "$mapPolygonValues")

@@ -126,17 +126,17 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
     }
 
     private fun calculateScale(): ZoomInfo {
-        val minLeft = generator.rooms.asSequence().map { it.room.topLeft.x }.min() ?: 0f
-        val maxRight = generator.rooms.asSequence().map { it.room.topLeft.x + it.room.width }.max() ?: 0f
-        val minTop = generator.rooms.asSequence().map { it.room.topLeft.y }.min() ?: 0f
-        val maxBottom = generator.rooms.asSequence().map { it.room.topLeft.y + it.room.height }.max() ?: 0f
+        val minLeft = generator.rooms.asSequence().map { it.room.topLeft.x }.minOrNull() ?: 0f
+        val maxRight = generator.rooms.asSequence().map { it.room.topLeft.x + it.room.width }.maxOrNull() ?: 0f
+        val minTop = generator.rooms.asSequence().map { it.room.topLeft.y }.minOrNull() ?: 0f
+        val maxBottom = generator.rooms.asSequence().map { it.room.topLeft.y + it.room.height }.maxOrNull() ?: 0f
 
         val maxWidth = maxRight - minLeft
         val maxHeight = maxBottom - minTop
 
         val horizontalScale = (width - 2 * SCREEN_MARGIN) / maxWidth
         val verticalScale = (height - 2 * SCREEN_MARGIN) / maxHeight
-        val scale = listOf(verticalScale, horizontalScale, SCALE_FACTOR.toFloat()).min()!!
+        val scale = listOf(verticalScale, horizontalScale, SCALE_FACTOR.toFloat()).minOf { it }
 
         val topLeft = calculatePosition(Vector(minLeft, minTop), ZoomInfo(scale, 0f, 0f))
         val bottomRight = calculatePosition(Vector(maxRight, maxBottom), ZoomInfo(scale, 0f, 0f))
@@ -160,7 +160,7 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
         val right = scaledTopLeft.x + width * zoomInfo.scaleFactor
         val bottom = scaledTopLeft.y + height * zoomInfo.scaleFactor
 
-        return android.graphics.RectF(scaledTopLeft.x, scaledTopLeft.y, right, bottom)
+        return RectF(scaledTopLeft.x, scaledTopLeft.y, right, bottom)
     }
 
     private fun calculatePosition(v: Vector, zoomInfo: ZoomInfo) = Vector(
