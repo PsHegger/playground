@@ -41,7 +41,7 @@ abstract class BaseMenuScene(val gameSurfaceView: GameSurfaceView) : Scene {
         val titleTextHeight = -(titlePaint.descent() + titlePaint.ascent())
         val titleHeight = titleTextHeight * 1.5f
 
-        buttons = scenes.mapIndexed { i, (title, scene) ->
+        buttons = scenes.mapIndexed { i, (title, sceneCreator) ->
             val top = (i + 4) * margin + i * rectHeight + titleHeight
             Button(
                 title,
@@ -54,7 +54,7 @@ abstract class BaseMenuScene(val gameSurfaceView: GameSurfaceView) : Scene {
                 Color.BLACK,
                 textS
             ).apply {
-                setOnClickListener { gameSurfaceView.scene = scene }
+                setOnClickListener { gameSurfaceView.scene = sceneCreator() }
             }
         }
     }
@@ -70,5 +70,5 @@ abstract class BaseMenuScene(val gameSurfaceView: GameSurfaceView) : Scene {
         buttons.forEach { it.render(canvas) }
     }
 
-    protected data class MenuItem(val title: String, val scene: Scene)
+    protected data class MenuItem(val title: String, val sceneCreator: () -> Scene)
 }

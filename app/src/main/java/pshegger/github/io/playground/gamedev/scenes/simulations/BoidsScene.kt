@@ -1,4 +1,4 @@
-package pshegger.github.io.playground.gamedev.scenes
+package pshegger.github.io.playground.gamedev.scenes.simulations
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,7 +9,7 @@ import pshegger.github.io.playground.gamedev.Scene
 import pshegger.github.io.playground.gamedev.algorithms.Boids
 import pshegger.github.io.playground.gamedev.geometry.Vector
 import pshegger.github.io.playground.gamedev.hud.Button
-import pshegger.github.io.playground.gamedev.scenes.menu.MainMenuScene
+import pshegger.github.io.playground.gamedev.scenes.menu.SimulationsMenuScene
 import kotlin.math.roundToInt
 
 class BoidsScene(private val gameSurfaceView: GameSurfaceView) : Scene {
@@ -75,7 +75,7 @@ class BoidsScene(private val gameSurfaceView: GameSurfaceView) : Scene {
     }
 
     override fun onBackPressed() {
-        gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        gameSurfaceView.scene = SimulationsMenuScene(gameSurfaceView)
     }
 
     private fun Boids.Boid.render(canvas: Canvas, includeDebug: Boolean) {
