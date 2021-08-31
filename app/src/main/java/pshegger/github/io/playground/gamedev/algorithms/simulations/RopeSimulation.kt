@@ -41,13 +41,14 @@ class RopeSimulation(private val maxStickLength: Float = 100f) {
         }
     }
 
-    fun update(deltaTime: Long) {
+    fun update(deltaTime: Long, gravity: Vector?) {
+        val gravity = gravity ?: (Vector.Down * 9.81f)
         val deltaTimeSec = deltaTime / 1000f
         rope.points.forEach { p ->
             if (!p.locked) {
                 val posBeforeUpdate = p.position
                 p.position += p.position - p.prevPosition
-                p.position += Vector.Down * 9810f * deltaTimeSec * deltaTimeSec
+                p.position += gravity * 1000f * deltaTimeSec * deltaTimeSec
                 p.prevPosition = posBeforeUpdate
             }
         }

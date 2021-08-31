@@ -17,12 +17,13 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
         private const val POINT_TOUCH_RADIUS = 100f
     }
 
-    private var btnReset: Button? = null
-    private var btnSimulate: Button? = null
+    private val btns = mutableListOf<Button>()
+
     private var width: Int = 0
     private var height: Int = 0
 
     private var isSimulationRunning: Boolean = false
+    private var isGravityEnabled: Boolean = false
 
     private val simulation = RopeSimulation(50f)
     private val touchHandler = TouchHandler()
@@ -41,32 +42,40 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
         this.width = width
         this.height = height
 
-        btnReset = Button("RES", width - 200f, height - 120f).apply {
+
+        btns.clear()
+        btns.add(Button("RES", width - 200f, height - 120f).apply {
             setOnClickListener {
                 isSimulationRunning = false
                 simulation.reset()
             }
-        }
+        })
 
-        btnSimulate = Button("SIM", width - 400f, height - 120f).apply {
+        btns.add(Button("GRAV", width - 400f, height - 120f).apply {
+            setOnClickListener {
+                isGravityEnabled = !isGravityEnabled
+            }
+        })
+
+        btns.add(Button("SIM", width - 600f, height - 120f).apply {
             setOnClickListener {
                 simulation.subdivideRope()
                 isSimulationRunning = true
             }
-        }
+        })
 
         simulation.reset()
     }
 
     override fun update(deltaTime: Long) {
         if (isSimulationRunning) {
-            simulation.update(deltaTime)
+            val gravity = if (isGravityEnabled) gameSurfaceView.input.gravity else null
+            simulation.update(deltaTime, gravity)
         } else {
             touchHandler.handle(gameSurfaceView.input.touch)
         }
 
-        btnReset?.update(deltaTime, gameSurfaceView.input.touch)
-        btnSimulate?.update(deltaTime, gameSurfaceView.input.touch)
+        btns.forEach { it.update(deltaTime, gameSurfaceView.input.touch) }
     }
 
     override fun render(canvas: Canvas) {
@@ -94,8 +103,12 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
             }
         }
 
-        btnReset?.render(canvas)
-        btnSimulate?.render(canvas)
+        if (isGravityEnabled) {
+            paint.color = Color.BLACK
+            canvas.drawCircle(width - 100f, 100f, 20f, paint)
+        }
+
+        btns.forEach { it.render(canvas) }
     }
 
     override fun onBackPressed() {
