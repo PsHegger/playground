@@ -56,8 +56,8 @@ class PoissonBridsonScene(val gameSurfaceView: GameSurfaceView) : Scene {
             algo.generateNextPoint()
         }
 
-        btnRestart?.update(deltaTime, gameSurfaceView.touch)
-        btnInstant?.update(deltaTime, gameSurfaceView.touch)
+        btnRestart?.update(deltaTime, gameSurfaceView.input.touch)
+        btnInstant?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {

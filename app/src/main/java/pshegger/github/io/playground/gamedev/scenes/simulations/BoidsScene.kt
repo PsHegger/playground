@@ -58,8 +58,8 @@ class BoidsScene(private val gameSurfaceView: GameSurfaceView) : Scene {
     override fun update(deltaTime: Long) {
         boids.update(deltaTime)
 
-        btnRestart?.update(deltaTime, gameSurfaceView.touch)
-        btnDebug?.update(deltaTime, gameSurfaceView.touch)
+        btnRestart?.update(deltaTime, gameSurfaceView.input.touch)
+        btnDebug?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {

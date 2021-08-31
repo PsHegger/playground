@@ -43,7 +43,7 @@ class SimpleBallsScene(val gameSurfaceView: GameSurfaceView) : Scene {
             it.checkWallCollision(width, height)
         }
 
-        btnAdd?.update(deltaTime, gameSurfaceView.touch)
+        btnAdd?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {

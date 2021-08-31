@@ -85,8 +85,8 @@ class MapGeneratorScene(val gameSurfaceView: GameSurfaceView) : Scene {
             }
         }
 
-        btnRestart?.update(deltaTime, gameSurfaceView.touch)
-        btnInstant?.update(deltaTime, gameSurfaceView.touch)
+        btnRestart?.update(deltaTime, gameSurfaceView.input.touch)
+        btnInstant?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {

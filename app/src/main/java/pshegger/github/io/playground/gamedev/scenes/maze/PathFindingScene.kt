@@ -86,7 +86,7 @@ class PathFindingScene(val gameSurfaceView: GameSurfaceView) : Scene {
             }
         }
 
-        btns.forEach { it.update(deltaTime, gameSurfaceView.touch) }
+        btns.forEach { it.update(deltaTime, gameSurfaceView.input.touch) }
     }
 
     override fun render(canvas: Canvas) {

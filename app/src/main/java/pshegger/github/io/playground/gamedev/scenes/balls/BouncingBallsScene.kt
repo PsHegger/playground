@@ -52,7 +52,7 @@ class BouncingBallsScene(val gameSurfaceView: GameSurfaceView) : Scene {
             }
         }
 
-        btnAdd?.update(deltaTime, gameSurfaceView.touch)
+        btnAdd?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {

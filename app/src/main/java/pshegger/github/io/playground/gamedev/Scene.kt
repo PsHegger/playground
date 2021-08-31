@@ -10,4 +10,5 @@ interface Scene {
     fun onBackPressed()
 
     fun fpsColor(): Int = Color.BLACK
+    fun isGravityEnabled(): Boolean = false
 }

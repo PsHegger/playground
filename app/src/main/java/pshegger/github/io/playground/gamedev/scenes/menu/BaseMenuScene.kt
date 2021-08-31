@@ -60,7 +60,7 @@ abstract class BaseMenuScene(val gameSurfaceView: GameSurfaceView) : Scene {
     }
 
     override fun update(deltaTime: Long) {
-        buttons.forEach { it.update(deltaTime, gameSurfaceView.touch) }
+        buttons.forEach { it.update(deltaTime, gameSurfaceView.input.touch) }
     }
 
     override fun render(canvas: Canvas) {

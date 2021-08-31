@@ -35,6 +35,8 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
         strokeCap = Paint.Cap.ROUND
     }
 
+    override fun isGravityEnabled(): Boolean = true
+
     override fun sizeChanged(width: Int, height: Int) {
         this.width = width
         this.height = height
@@ -60,11 +62,11 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
         if (isSimulationRunning) {
             simulation.update(deltaTime)
         } else {
-            touchHandler.handle(gameSurfaceView.touch)
+            touchHandler.handle(gameSurfaceView.input.touch)
         }
 
-        btnReset?.update(deltaTime, gameSurfaceView.touch)
-        btnSimulate?.update(deltaTime, gameSurfaceView.touch)
+        btnReset?.update(deltaTime, gameSurfaceView.input.touch)
+        btnSimulate?.update(deltaTime, gameSurfaceView.input.touch)
     }
 
     override fun render(canvas: Canvas) {
