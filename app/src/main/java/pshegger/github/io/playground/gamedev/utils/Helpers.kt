@@ -5,6 +5,8 @@ import pshegger.github.io.playground.gamedev.geometry.Vector
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
+const val EPSILON = 0.0001f
+
 fun List<Edge>.neighbors(v: Vector): List<Vector> = this.mapNotNull {
     when (v) {
         it.start -> it.end

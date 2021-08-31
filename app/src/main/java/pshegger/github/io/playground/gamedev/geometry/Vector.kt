@@ -41,12 +41,16 @@ data class Vector(val x: Float, val y: Float) {
     operator fun times(r: Float): Vector = Vector(x * r, y * r)
     operator fun times(r: Int): Vector = times(r.toFloat())
     operator fun times(v: Vector): Float = x * v.x + y * v.y            // Dot product
+    operator fun rem(v: Vector): Float = y * v.x - x * v.y              // Cross product
 
     fun shift(f: Float) = Vector(x + f, y + f)
     fun shift(n: Int) = shift(n.toFloat())
 
     companion object {
         val Zero = Vector(0f, 0f)
+        val Up = Vector(0f, -1f)
+        val Right = Vector(1f, 0f)
         val Down = Vector(0f, 1f)
+        val Left = Vector(-1f, 0f)
     }
 }
