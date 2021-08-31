@@ -47,5 +47,6 @@ data class Vector(val x: Float, val y: Float) {
 
     companion object {
         val Zero = Vector(0f, 0f)
+        val Down = Vector(0f, 1f)
     }
 }

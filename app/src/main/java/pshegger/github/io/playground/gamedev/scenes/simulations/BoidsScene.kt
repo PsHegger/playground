@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.Boids
+import pshegger.github.io.playground.gamedev.algorithms.simulations.Boids
 import pshegger.github.io.playground.gamedev.geometry.Vector
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.SimulationsMenuScene
