@@ -1,7 +1,8 @@
-package pshegger.github.io.playground.gamedev.algorithms
+package pshegger.github.io.playground.gamedev.algorithms.dungeon
 
 import android.graphics.RectF
 import android.util.Log
+import pshegger.github.io.playground.gamedev.algorithms.Graph
 import pshegger.github.io.playground.gamedev.geometry.Edge
 import pshegger.github.io.playground.gamedev.geometry.Vector
 import pshegger.github.io.playground.gamedev.utils.weightedRandom
@@ -24,8 +25,12 @@ class DungeonGenerator(private val settings: Settings) {
         get() = _rooms
     val corridors: List<Edge>
         get() = _corridors
+    var tileMap = TileMap(0, 0)
+        private set
     val canGenerateMore: Boolean
         get() = generationStep != GenerationStep.Finished
+    val generatingTileMap: Boolean
+        get() = generationStep == GenerationStep.TileGeneration
     private val selectedRooms: List<RoomState>
         get() = _rooms.filter { it.state == RoomState.State.Selected }
 
@@ -39,6 +44,8 @@ class DungeonGenerator(private val settings: Settings) {
     private var entranceCtr: Int = 0
     private var entranceCandidate: Int = 0
     private var distances = mutableListOf<Pair<RoomState, Int>>()
+    private var tileDelta = Pair(0, 0)
+    private var tileIndex = 0
 
     fun reset(width: Int, height: Int) {
         this.width = width
@@ -50,6 +57,9 @@ class DungeonGenerator(private val settings: Settings) {
         distances.clear()
         remainingRooms.clear()
         processedRooms.clear()
+        tileMap = TileMap(0, 0)
+        tileDelta = Pair(0, 0)
+        tileIndex = 0
         generationStep = GenerationStep.RoomGeneration
     }
 
@@ -63,6 +73,7 @@ class DungeonGenerator(private val settings: Settings) {
             GenerationStep.EntranceSelection -> selectEntrance()
             GenerationStep.QuestObjectiveSelection -> selectQuestObjective()
             GenerationStep.GenerateCorridors -> generateCorridors()
+            GenerationStep.TileGeneration -> generateTile()
             else -> Log.d("DungeonGenerator", "The generation is already over")
         }
     }
@@ -230,7 +241,7 @@ class DungeonGenerator(private val settings: Settings) {
 
     private fun generateCorridors() {
         if (remainingRooms.isEmpty()) {
-            generationStep = GenerationStep.Finished
+            generationStep = GenerationStep.TileGeneration
             return
         }
 
@@ -348,6 +359,49 @@ class DungeonGenerator(private val settings: Settings) {
 
         delayCtr = 0
     }
+
+    private fun generateTile() {
+        if (tileMap.width == 0 || tileMap.height == 0) {
+            val minX = rooms.minOf { it.room.left }.roundToInt()
+            val maxX = rooms.maxOf { it.room.right }.roundToInt()
+            val minY = rooms.minOf { it.room.top }.roundToInt()
+            val maxY = rooms.maxOf { it.room.bottom }.roundToInt()
+            val width = (maxX - minX) + 5
+            val height = (maxY - minY) + 5
+            tileMap = TileMap(width, height)
+            tileDelta = Pair(minX - 2, minY - 2)
+        }
+        if (tileIndex >= tileMap.width * tileMap.height) {
+            generationStep = GenerationStep.Finished
+            return
+        }
+
+        repeat(30) {
+            if (tileIndex >= tileMap.width * tileMap.height) {
+                return@repeat
+            }
+
+            val x = tileIndex % tileMap.width
+            val y = tileIndex / tileMap.width
+            val tileLeft = (x + tileDelta.first).toFloat()
+            val tileTop = (y + tileDelta.second).toFloat()
+
+            val tileRect = RectF(tileLeft, tileTop, tileLeft + 1, tileTop + 1)
+            val intersectedRoom = rooms.firstOrNull { it.room.getRect().intersect(tileRect) }
+            val intersectedCorridor = corridors.firstOrNull { it.getRect().intersect(tileRect) }
+            tileMap[x, y] = when {
+                intersectedRoom != null -> when (intersectedRoom.room.type) {
+                    Room.RoomType.Room -> TileMap.TileType.Room
+                    Room.RoomType.Entrance -> TileMap.TileType.StartRoom
+                    Room.RoomType.QuestObjective -> TileMap.TileType.QuestRoom
+                }
+                intersectedCorridor != null -> TileMap.TileType.Corridor
+                else -> TileMap.TileType.Void
+            }
+
+            tileIndex++
+        }
+    }
     //</editor-fold>
 
     private fun <T> Graph<T>.branchDistance(n: T, prev: T? = null): Int {
@@ -361,6 +415,27 @@ class DungeonGenerator(private val settings: Settings) {
 
         return branchDistance(next, n) + 1
     }
+
+    private fun Edge.getRect(): RectF =
+        if (start.x == end.x) {
+            val minY = minOf(start.y, end.y)
+            val maxY = maxOf(start.y, end.y)
+            RectF(
+                start.x - .5f,
+                minY,
+                start.x + .5f,
+                maxY
+            )
+        } else {
+            val minX = minOf(start.x, end.x)
+            val maxX = maxOf(start.x, end.x)
+            RectF(
+                minX,
+                start.y - .5f,
+                maxX,
+                start.y + .5f
+            )
+        }
 
     //<editor-fold desc="Inner classes">
     data class Room(
@@ -383,7 +458,7 @@ class DungeonGenerator(private val settings: Settings) {
 
         fun area() = width * height
         fun intersects(other: Room, margin: Float) = getRect(margin).intersect(other.getRect(0f))
-        private fun getRect(margin: Float) = RectF(
+        fun getRect(margin: Float = 0f) = RectF(
             left - margin,
             top - margin,
             right + margin,
@@ -422,6 +497,7 @@ class DungeonGenerator(private val settings: Settings) {
         EntranceSelection,
         QuestObjectiveSelection,
         GenerateCorridors,
+        TileGeneration,
         Finished
     }
 

@@ -1,15 +1,15 @@
 package pshegger.github.io.playground.gamedev.scenes
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
+import androidx.core.graphics.applyCanvas
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.Scene
-import pshegger.github.io.playground.gamedev.algorithms.DungeonGenerator
+import pshegger.github.io.playground.gamedev.algorithms.dungeon.DungeonGenerator
+import pshegger.github.io.playground.gamedev.algorithms.dungeon.TileMap
 import pshegger.github.io.playground.gamedev.geometry.Vector
 import pshegger.github.io.playground.gamedev.hud.Button
 import pshegger.github.io.playground.gamedev.scenes.menu.MainMenuScene
+import kotlin.math.roundToInt
 
 class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scene {
     companion object {
@@ -50,6 +50,9 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
     private var scaledWidth: Int = 0
     private var scaledHeight: Int = 0
 
+    private var mapBuffer: Bitmap? = null
+    private var latestRenderedTileIndex = 0
+
     override fun sizeChanged(width: Int, height: Int) {
         this.width = width
         this.height = height
@@ -62,6 +65,8 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
 
         btnInstant = Button("INS", width - 400f, height - 120f).apply {
             setOnClickListener {
+                mapBuffer = null
+                latestRenderedTileIndex = 0
                 generator.reset(scaledWidth, scaledHeight)
                 generator.generateAll()
             }
@@ -75,6 +80,18 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
             generator.nextStep()
         }
 
+        if (generator.generatingTileMap) {
+            if (mapBuffer == null && generator.tileMap.width > 0) {
+                val scale = width.toFloat() / generator.tileMap.width
+                mapBuffer = Bitmap.createBitmap(
+                    width,
+                    (generator.tileMap.height * scale).roundToInt(),
+                    Bitmap.Config.ARGB_8888
+                )
+            }
+            updateMapBuffer()
+        }
+
         btnRestart?.update(deltaTime, gameSurfaceView.input.touch)
         btnInstant?.update(deltaTime, gameSurfaceView.input.touch)
     }
@@ -84,6 +101,7 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
 
         val zoomInfo = calculateScale()
 
+        paint.style = Paint.Style.STROKE
         generator.rooms.forEach { roomState ->
             paint.color = when (roomState.state) {
                 DungeonGenerator.RoomState.State.Generated -> Color.DKGRAY
@@ -118,6 +136,13 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
 
         canvas.drawText("Count: ${generator.rooms.size}", 10f, height - 10f, textPaint)
 
+        mapBuffer?.let { buffer ->
+            val minLeft = generator.rooms.asSequence().map { it.room.topLeft.x }.minOrNull() ?: 0f
+            val minTop = generator.rooms.asSequence().map { it.room.topLeft.y }.minOrNull() ?: 0f
+            val p = calculatePosition(Vector(minLeft - 2, minTop - 2), zoomInfo)
+            canvas.drawBitmap(buffer, 0f, p.y, paint)
+        }
+
         btnRestart?.render(canvas)
         btnInstant?.render(canvas)
     }
@@ -126,11 +151,45 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
     }
 
+    private fun updateMapBuffer() {
+        mapBuffer?.applyCanvas {
+            paint.style = Paint.Style.FILL_AND_STROKE
+            val tileSize = width.toFloat() / generator.tileMap.width
+            for (i in latestRenderedTileIndex until (generator.tileMap.width * generator.tileMap.height)) {
+                paint.color = when (generator.tileMap[i]) {
+                    TileMap.TileType.Unset -> Color.BLACK
+                    TileMap.TileType.Void -> Color.rgb(154, 206, 235)
+                    TileMap.TileType.Room -> Color.rgb(139, 69, 19)
+                    TileMap.TileType.StartRoom -> Color.rgb(167, 65, 101)
+                    TileMap.TileType.QuestRoom -> Color.rgb(141, 103, 8)
+                    TileMap.TileType.Corridor -> Color.GRAY
+                }
+
+                val x = i % generator.tileMap.width
+                val y = i / generator.tileMap.width
+
+                if (generator.tileMap[x, y] != TileMap.TileType.Unset) {
+                    drawRect(
+                        x * tileSize,
+                        y * tileSize,
+                        (x + 1) * tileSize,
+                        (y + 1) * tileSize,
+                        paint
+                    )
+                    latestRenderedTileIndex = i
+                }
+            }
+        }
+    }
+
     private fun calculateScale(): ZoomInfo {
         val minLeft = generator.rooms.asSequence().map { it.room.topLeft.x }.minOrNull() ?: 0f
-        val maxRight = generator.rooms.asSequence().map { it.room.topLeft.x + it.room.width }.maxOrNull() ?: 0f
+        val maxRight =
+            generator.rooms.asSequence().map { it.room.topLeft.x + it.room.width }.maxOrNull() ?: 0f
         val minTop = generator.rooms.asSequence().map { it.room.topLeft.y }.minOrNull() ?: 0f
-        val maxBottom = generator.rooms.asSequence().map { it.room.topLeft.y + it.room.height }.maxOrNull() ?: 0f
+        val maxBottom =
+            generator.rooms.asSequence().map { it.room.topLeft.y + it.room.height }.maxOrNull()
+                ?: 0f
 
         val maxWidth = maxRight - minLeft
         val maxHeight = maxBottom - minTop
@@ -169,5 +228,9 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
         (v.y - scaledHeight / 2f) * zoomInfo.scaleFactor + height / 2f + zoomInfo.translateY
     )
 
-    private data class ZoomInfo(val scaleFactor: Float, val translateX: Float, val translateY: Float)
+    private data class ZoomInfo(
+        val scaleFactor: Float,
+        val translateX: Float,
+        val translateY: Float
+    )
 }
