@@ -25,7 +25,8 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
             1.3f,
             1.618f,
             1,
-            roomMargin = 0.6f
+            roomMargin = 2.0f,
+            corridorMargin = 1.0f,
         )
     )
     private val paint = Paint().apply {
@@ -104,7 +105,7 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
             canvas.drawRect(roomState.room.getRect(zoomInfo), paint)
         }
 
-        generator.edges.forEach { edge ->
+        generator.corridors.forEach { edge ->
             val start = calculatePosition(edge.start, zoomInfo)
             val end = calculatePosition(edge.end, zoomInfo)
 

@@ -2,14 +2,14 @@ package pshegger.github.io.playground.gamedev.algorithms
 
 data class Graph<T>(val nodes: List<T>, val edges: List<Edge<T>>) {
     fun shortestPath(start: T, end: T): List<T>? {
-        val distances = nodes.associate { it to Float.POSITIVE_INFINITY }.toMutableMap()
-        val previouses = nodes.associate { Pair<T, T?>(it, null) }.toMutableMap()
+        val distances = nodes.associateWith { Float.POSITIVE_INFINITY }.toMutableMap()
+        val previouses: MutableMap<T, T?> = nodes.associateWith { null }.toMutableMap()
         val unvisitedNodes = nodes.toMutableList()
 
         distances[start] = 0f
 
         while (unvisitedNodes.isNotEmpty()) {
-            val u = unvisitedNodes.sortedBy { distances[it] }.first()
+            val u = unvisitedNodes.minByOrNull { distances[it] ?: Float.POSITIVE_INFINITY } ?: break
             unvisitedNodes.remove(u)
             if (u == end) {
                 break
