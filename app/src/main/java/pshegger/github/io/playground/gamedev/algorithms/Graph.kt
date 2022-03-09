@@ -1,6 +1,10 @@
 package pshegger.github.io.playground.gamedev.algorithms
 
-data class Graph<T>(val nodes: List<T>, val edges: List<Edge<T>>) {
+data class Graph<T>(val edges: List<Edge<T>>) {
+
+    private val nodes: List<T>
+        get() = edges.flatMap { listOf(it.start, it.end) }.distinct()
+
     fun shortestPath(start: T, end: T): List<T>? {
         val distances = nodes.associateWith { Float.POSITIVE_INFINITY }.toMutableMap()
         val previouses: MutableMap<T, T?> = nodes.associateWith { null }.toMutableMap()
@@ -37,6 +41,10 @@ data class Graph<T>(val nodes: List<T>, val edges: List<Edge<T>>) {
         }
 
         return path.reversed()
+    }
+
+    fun addEdge(edge: Edge<T>) {
+
     }
 
     fun isRouteAvailable(start: T, end: T) = shortestPath(start, end) != null

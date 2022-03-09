@@ -158,7 +158,7 @@ class DungeonGenerator(private val settings: Settings) {
     }
 
     private fun generateSpanningTree() {
-        val graph = Graph(selectedRooms.map { it.room }, edges)
+        val graph = Graph(edges)
 
         selectedRooms.asSequence().mapIndexed { i, x ->
             selectedRooms.mapIndexed { j, y ->
@@ -185,7 +185,7 @@ class DungeonGenerator(private val settings: Settings) {
         }
 
         if (entranceCtr < selectedRooms.size) {
-            val graph = Graph(selectedRooms.map { it.room }, edges)
+            val graph = Graph(edges)
             val currBranchDistance = graph.branchDistance(selectedRooms[entranceCandidate].room)
             val newBranchDistance = graph.branchDistance(selectedRooms[entranceCtr].room)
             if (newBranchDistance > currBranchDistance) {
@@ -208,7 +208,7 @@ class DungeonGenerator(private val settings: Settings) {
         if (delayCtr < 18) {
             return
         }
-        val graph = Graph(selectedRooms.map { it.room }, edges)
+        val graph = Graph(edges)
         val leaveRooms =
             selectedRooms.filter { it.room.type == Room.RoomType.Room && graph.neighbors(it.room).size == 1 }
         if (leaveRooms.isNotEmpty()) {
@@ -248,7 +248,7 @@ class DungeonGenerator(private val settings: Settings) {
         delayCtr++
         if (delayCtr < 6) return
 
-        val graph = Graph(selectedRooms.map { it.room }, edges)
+        val graph = Graph(edges)
         val currentRoom = remainingRooms.random(rng)
         remainingRooms.remove(currentRoom)
         val nonProcessedNeighbors = graph.neighbors(currentRoom)
