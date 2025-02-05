@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_experiment.view.*
 import pshegger.github.io.playground.conway.ConwayActivity
 import pshegger.github.io.playground.gamedev.GameDevActivity
 import pshegger.github.io.playground.mandelbrot.MandelbrotActivity
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        experimentList.apply {
+        findViewById<RecyclerView>(R.id.experimentList).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = ExperimentAdapter(experiments) {
                 startActivity(Intent(this@MainActivity, it.target))
@@ -63,9 +63,12 @@ class MainActivity : AppCompatActivity() {
             private val itemSelected: (Experiment) -> Unit
         ) : RecyclerView.ViewHolder(itemView) {
 
+            private val experimentIcon = itemView.findViewById<ImageView>(R.id.experimentIcon)
+            private val experimentName = itemView.findViewById<TextView>(R.id.experimentName)
+
             fun bind(experiment: Experiment) {
-                itemView.experimentIcon.setImageResource(experiment.icon)
-                itemView.experimentName.text = experiment.name
+                experimentIcon.setImageResource(experiment.icon)
+                experimentName.text = experiment.name
                 itemView.setOnClickListener { itemSelected(experiment) }
             }
         }

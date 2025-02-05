@@ -57,7 +57,7 @@ class GameSurfaceView(context: Context, attrs: AttributeSet?, defStyleAttr: Int,
     val input: Input = Input()
 
     private val sensorManager: SensorManager
-    private val accelerometer: Sensor
+    private val accelerometer: Sensor?
     private var accelerometerListenerRegistered: Boolean = false
 
     init {

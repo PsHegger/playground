@@ -33,7 +33,7 @@ class Conway(val width: Int, val height: Int, private val birthChance: Float = 0
         }
     }
 
-    private fun liveNeighbourCount(x: Int, y: Int): Int = (-1..1).sumBy { dy ->
+    private fun liveNeighbourCount(x: Int, y: Int): Int = (-1..1).sumOf { dy ->
         (-1..1).count { dx ->
             if (dx == 0 && dy == 0) {
                 false

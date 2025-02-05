@@ -1,6 +1,7 @@
 package pshegger.github.io.playground.conway
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 
 data class ColorPalette(val bgColor: Int, val gridColor: Int, val fgColor: Int) {
     companion object {
@@ -13,6 +14,6 @@ data class ColorPalette(val bgColor: Int, val gridColor: Int, val fgColor: Int) 
         }
 
         private fun Context.getColor(name: String) =
-            resources.getColor(resources.getIdentifier(name, "color", packageName))
+            ContextCompat.getColor(this, resources.getIdentifier(name, "color", packageName))
     }
 }

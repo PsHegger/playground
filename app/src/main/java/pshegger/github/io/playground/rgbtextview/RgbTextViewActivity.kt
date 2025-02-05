@@ -3,13 +3,18 @@ package pshegger.github.io.playground.rgbtextview
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.RadioGroup
 import androidx.core.widget.addTextChangedListener
-import kotlinx.android.synthetic.main.activity_rgb_text_view.*
 import pshegger.github.io.playground.R
 
 class RgbTextViewActivity : AppCompatActivity() {
+
+    private val colorModeSelector by lazy { findViewById<RadioGroup>(R.id.colorModeSelector) }
+    private val rgbTextView by lazy { findViewById<RgbTextView>(R.id.rgbTextView) }
+    private val textModeSelector by lazy { findViewById<RadioGroup>(R.id.textModeSelector) }
+    private val customText by lazy { findViewById<EditText>(R.id.customText) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

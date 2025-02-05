@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_visual_sorting.*
-import kotlinx.android.synthetic.main.item_algorithm.view.*
 import pshegger.github.io.playground.R
 import pshegger.github.io.playground.visualsorting.algorithm.*
 
 class VisualSortingActivity : AppCompatActivity() {
+
+    private val info by lazy { findViewById<TextView>(R.id.info) }
+    private val buttonContainer by lazy { findViewById<RecyclerView>(R.id.buttonContainer) }
+    private val visualizer by lazy { findViewById<VisualizerView>(R.id.visualizer) }
 
     private val changeListener = { name: String, compareCount: Int, accessCount: Int ->
         info.text = getString(R.string.visualsorting_info_text, name, compareCount, accessCount)
@@ -81,8 +84,10 @@ class VisualSortingActivity : AppCompatActivity() {
             private val clickListener: (SortingAlgorithm) -> Unit
         ) : RecyclerView.ViewHolder(itemView) {
 
+            private val button = itemView.findViewById<TextView>(R.id.button)
+
             fun bind(algorithm: AlgorithmData) {
-                itemView.button.apply {
+                button.apply {
                     text = algorithm.name
                     setOnClickListener {
                         clickListener(algorithm.init())
