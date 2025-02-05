@@ -74,8 +74,9 @@ class BoidsScene(private val gameSurfaceView: GameSurfaceView) : Scene {
         btnDebug?.render(canvas)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = SimulationsMenuScene(gameSurfaceView)
+        return true
     }
 
     private fun Boids.Boid.render(canvas: Canvas, includeDebug: Boolean) {

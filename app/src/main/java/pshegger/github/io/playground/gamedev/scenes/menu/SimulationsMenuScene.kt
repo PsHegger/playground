@@ -8,8 +8,9 @@ import pshegger.github.io.playground.gamedev.scenes.simulations.RopeSimulationSc
 class SimulationsMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfaceView) {
     override val title: String = "Simulations"
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 
     override val scenes: List<MenuItem> = listOf(

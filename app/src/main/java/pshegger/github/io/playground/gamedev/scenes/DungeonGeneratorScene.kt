@@ -147,8 +147,9 @@ class DungeonGeneratorScene(private val gameSurfaceView: GameSurfaceView) : Scen
         btnInstant?.render(canvas)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 
     private fun updateMapBuffer() {

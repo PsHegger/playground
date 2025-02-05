@@ -76,8 +76,9 @@ class MazeScene(val gameSurfaceView: GameSurfaceView, private val generator: Bas
         btnInstant?.render(canvas)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MazeMenuScene(gameSurfaceView)
+        return true
     }
 
     override fun fpsColor(): Int = Color.MAGENTA

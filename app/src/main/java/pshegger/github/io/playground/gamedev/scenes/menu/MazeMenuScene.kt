@@ -15,7 +15,8 @@ class MazeMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfac
             MenuItem("Path-Finding") { PathFindingScene(gameSurfaceView) },
         )
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 }

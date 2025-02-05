@@ -142,11 +142,12 @@ class MapGeneratorScene(val gameSurfaceView: GameSurfaceView) : Scene {
         canvas.drawLines(generator.voronoiEdges.toLinesArray(), voronoiEdgePaintThin)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MapGenerationMenuScene(gameSurfaceView)
+        return true
     }
 
-    private fun Polygon.toPath(): Path? = android.graphics.Path().let { p ->
+    private fun Polygon.toPath(): Path? = Path().let { p ->
         vectorRoute?.let { route ->
             p.moveTo(route[0].x, route[0].y)
             (1 until route.size).forEach { i ->

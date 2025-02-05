@@ -126,8 +126,9 @@ class PathFindingScene(val gameSurfaceView: GameSurfaceView) : Scene {
         btns.forEach { it.render(canvas) }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MazeMenuScene(gameSurfaceView)
+        return true
     }
 
     override fun fpsColor(): Int = Color.MAGENTA

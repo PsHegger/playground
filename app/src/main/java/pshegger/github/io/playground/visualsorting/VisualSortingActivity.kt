@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pshegger.github.io.playground.R
@@ -41,13 +44,13 @@ class VisualSortingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_visual_sorting)
-        findViewById<View>(android.R.id.content).systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         buttonContainer.apply {
             layoutManager = LinearLayoutManager(context)
@@ -55,8 +58,8 @@ class VisualSortingActivity : AppCompatActivity() {
             adapter = AlgorithmAdapter(algorithms) { visualizer.algorithm = it }
 
             info.setOnClickListener {
-                val nextI = (visualizer.mode.ordinal + 1) % VisualizerView.Mode.values().size
-                visualizer.mode = VisualizerView.Mode.values()[nextI]
+                val nextI = (visualizer.mode.ordinal + 1) % VisualizerView.Mode.entries.size
+                visualizer.mode = VisualizerView.Mode.entries[nextI]
             }
         }
     }

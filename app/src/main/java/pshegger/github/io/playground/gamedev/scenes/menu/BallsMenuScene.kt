@@ -12,7 +12,8 @@ class BallsMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfa
             MenuItem("Bouncing") { BouncingBallsScene(gameSurfaceView) },
         )
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 }

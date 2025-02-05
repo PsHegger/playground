@@ -17,7 +17,8 @@ class MapGenerationMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(g
             MenuItem("Map Generation") { MapGeneratorScene(gameSurfaceView) },
         )
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 }

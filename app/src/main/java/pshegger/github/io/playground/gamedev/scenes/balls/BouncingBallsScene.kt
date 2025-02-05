@@ -65,8 +65,9 @@ class BouncingBallsScene(val gameSurfaceView: GameSurfaceView) : Scene {
         btnAdd?.render(canvas)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = BallsMenuScene(gameSurfaceView)
+        return true
     }
 
     private fun generateBall(rng: Random): Ball {

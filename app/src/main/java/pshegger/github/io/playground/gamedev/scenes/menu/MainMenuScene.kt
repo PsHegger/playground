@@ -1,6 +1,5 @@
 package pshegger.github.io.playground.gamedev.scenes.menu
 
-import pshegger.github.io.playground.gamedev.GameDevActivity
 import pshegger.github.io.playground.gamedev.GameSurfaceView
 import pshegger.github.io.playground.gamedev.scenes.DungeonGeneratorScene
 
@@ -16,7 +15,5 @@ class MainMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSurfac
             MenuItem("Dungeon Generation") { DungeonGeneratorScene(gameSurfaceView) },
         )
 
-    override fun onBackPressed() {
-        GameDevActivity.instance.finish()
-    }
+    override fun onBackPressed(): Boolean = false
 }

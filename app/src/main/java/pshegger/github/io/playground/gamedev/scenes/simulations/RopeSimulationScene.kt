@@ -111,8 +111,9 @@ class RopeSimulationScene(private val gameSurfaceView: GameSurfaceView) : Scene 
         btns.forEach { it.render(canvas) }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = SimulationsMenuScene(gameSurfaceView)
+        return true
     }
 
     private inner class TouchHandler {

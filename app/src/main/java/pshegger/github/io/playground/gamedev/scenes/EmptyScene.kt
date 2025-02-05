@@ -17,7 +17,8 @@ class EmptyScene(private val gameSurfaceView: GameSurfaceView) : Scene {
         canvas.drawColor(Color.rgb(154, 206, 235))
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 }

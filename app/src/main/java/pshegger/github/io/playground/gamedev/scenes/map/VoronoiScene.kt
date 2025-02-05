@@ -104,8 +104,9 @@ class VoronoiScene(val gameSurfaceView: GameSurfaceView) : Scene {
         btnInstant?.render(canvas)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MapGenerationMenuScene(gameSurfaceView)
+        return true
     }
 
     private fun Edge.render(canvas: Canvas, paint: Paint) {

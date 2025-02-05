@@ -12,7 +12,8 @@ class PoissonMenuScene(gameSurfaceView: GameSurfaceView) : BaseMenuScene(gameSur
             MenuItem("Bridson") { PoissonBridsonScene(gameSurfaceView) },
         )
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         gameSurfaceView.scene = MainMenuScene(gameSurfaceView)
+        return true
     }
 }
